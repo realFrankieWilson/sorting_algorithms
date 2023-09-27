@@ -1,5 +1,8 @@
 #include "sort.h"
 void swap_value(int *v1, int *v2);
+int lumoto_partition(int *array, size_t size, int start, int end);
+void lomuto(int *array, size_t size, int l, int r);
+
 
 /**
  * quick_sort -> Sorts an array of integer in ascending order using the quick
@@ -14,7 +17,7 @@ void quick_sort(int *array, size_t size)
 	if (size < 2 || array == NULL)
 		return;
 
-	lomuto = (array, size, 0, size - 1);
+	lomuto(array, size, 0, size - 1);
 }
 
 
@@ -49,15 +52,15 @@ void lomuto(int *array, size_t size, int l, int r)
 	if (r - l > 0)
 	{
 		middle = lumoto_partition(array, size, l, r);
-		lumoto(array, size, l, middle -1);
-		lumoto(array, size, middle + 1, r);
+		lomuto(array, size, l, middle - 1);
+		lomuto(array, size, middle + 1, r);
 	}
 }
 
 
 /**
  * lumoto_partition -> Order a subset ot an array of integers, according to
- * 						the lumoto partition(last element as pivot).
+ *						the lumoto partition(last element as pivot).
  * @array: The array of integers.
  * @size: Size of the array
  * @start: the starting index of the subset to order.
@@ -67,7 +70,7 @@ void lomuto(int *array, size_t size, int l, int r)
  */
 int lumoto_partition(int *array, size_t size, int start, int end)
 {
-	int *high = array + start, middle, down;
+	int *high = array + end, middle, down;
 
 	for (middle = down = start; down < end; down++)
 		if (array[down] < *high)
