@@ -36,7 +36,7 @@ void bubble_sort(int *array, size_t size);
 void insertion_sort_list(listint_t **list);
 void sort_function(listint_t **, listint_t **, listint_t *);
 void insert_sort_list(listint_t **);
-
+void selection_sort(int *array, size_t size);
 
 
 
