@@ -1,4 +1,5 @@
 #include "sort.h"
+void sort_function(listint_t **, listint_t **, listint_t *);
 
 /**
  * insertion_sort_list -> Sorts a doubly linked list of integers in ascending
