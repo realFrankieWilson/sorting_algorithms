@@ -65,8 +65,9 @@ void merge_sub(int *sub, int *temp, size_t head, size_t middle, size_t tail)
 	size_t i, j, k = 0;
 
 	printf("Merging...\n[left]: ");
+	print_array(sub + head, middle - head);
+	printf("[right]: ");
 	print_array(sub + middle, tail - middle);
-
 	for (i = head, j = middle; i < middle && j < tail; k++)
 		temp[k] = (sub[i] < sub[j]) ? sub[i++] : sub[j++];
 

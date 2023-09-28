@@ -3,7 +3,8 @@ void max(int *array, size_t size, size_t index, size_t r_node);
 void swap_value(int *v1, int *v2);
 
 /**
- * heap_sort -> Sorts an array of integers in ascending order using the heap sort
+ * heap_sort -> Sorts an array of integers in ascending order
+ *				using the heap sort
  *				algorithm.
  * @array: The array to be sorted.
  * @size: Size of the array.
@@ -20,7 +21,7 @@ void heap_sort(int *array, size_t size)
 	for (i = (size / 2) - 1; i >= 0; i--)
 		max(array, size, size, i);
 
-	for (i = size--; i > 0; i--)
+	for (i = size - 1; i > 0; i--)
 	{
 		swap_value(array, array + i);
 		print_array(array, size);
@@ -39,6 +40,7 @@ void heap_sort(int *array, size_t size)
 void swap_value(int *v1, int *v2)
 {
 	int tmp = *v1;
+
 	*v1 = *v2;
 	*v2 = tmp;
 }
