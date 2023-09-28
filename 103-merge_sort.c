@@ -1,89 +1,84 @@
 #include "sort.h"
-void merge(int *sub, int *temp_ptr, size_t head, size_t tail);
-void sort_sub_array(int *sub, int *temp_ptr, size_t head, size_t mid, size_t
-		tail);
+void merge_recursive(int *sub, int *temp, size_t head, size_t tail);
+void merge_sub(int *sub, int *temp, size_t head, size_t middle, size_t tail);
 
 /**
- * merge_sort -> Sorts an array of integers in ascending order using the Merge
- *		sort algorithm
- * @array: The array to be sorted.
- * @size: Size of the array.
+ * merge_sort -> Sort an array of integers in ascending order using the merge
+ *			sort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
  *
  * Return: Nothing
  */
 void merge_sort(int *array, size_t size)
 {
-	int *sort;
+	int *temp;
 
-	if (size < 2 || array == NULL)
+	if (array == NULL || size < 2)
 		return;
 
-	sort = malloc(sizeof(int) * size);
-	if (sort == NULL)
+	temp = malloc(sizeof(int) * size);
+	if (temp == NULL)
 		return;
 
-	merge(array, sort, 0, size);
+	merge_recursive(array, temp, 0, size);
 
-	free(sort);
+	free(temp);
 }
 
 
 /**
- * sort_sub_array -> Sorts a sub array of integers.
- * @sub: A sub array.
- * @temp_ptr: A pointer to the sorted sub array.
- * @head: The head index of the array.
- * @mid: The middle segment of the array.
- * @tail: The last index of the array.
- * 
+ * merge_recursive -> Implements the merge sort algorithm through recursion.
+ * @sub: sub array of integer to sort
+ * @temp: Temporary storage for the sorted result.
+ * @head: front index for the sub array.
+ * @tail: the tail index of the sub array.
+ *
  * Return: Nothing.
  */
-void sort_sub_array(int *sub, int *temp_ptr, size_t head, size_t mid, size_t
-		tail)
+void merge_recursive(int *sub, int *temp, size_t head, size_t tail)
+{
+	size_t middle;
+
+	if (tail - head > 1)
+	{
+		middle = head + (tail - head) / 2;
+		merge_recursive(sub, temp, head, middle);
+		merge_recursive(sub, temp, middle, tail);
+		merge_sub(sub, temp, head, middle, tail);
+	}
+}
+
+
+/**
+ * merge_sub -> Sort a sub array.
+ * @sub: A sub aray of integers to be sorted.
+ * @temp: A temporal buffer to store the sorted array.
+ * @head: The front index of an array.
+ * @tail: The tail of an array.
+ * @middle: The middle index.
+ *
+ * Return: Nothing.
+ */
+void merge_sub(int *sub, int *temp, size_t head, size_t middle, size_t tail)
 {
 	size_t i, j, k = 0;
 
 	printf("Merging...\n[left]: ");
-	print_array(sub + head, mid - head);
+	print_array(sub + middle, tail - middle);
 
-	printf("[right]: ");
-	print_array(sub + mid, tail - mid);
+	for (i = head, j = middle; i < middle && j < tail; k++)
+		temp[k] = (sub[i] < sub[j]) ? sub[i++] : sub[j++];
 
-	for (i = head, j = mid; i < mid && j < tail; k++)
-		temp_ptr[k] = (sub[i] < sub[j]) ? sub[i++] : sub[j++];
-
-	for (; i < mid; i++)
-		temp_ptr[k++] = sub[i];
+	for (; i < middle; i++)
+		temp[k++] = sub[i];
 
 	for (; j < tail; j++)
-		temp_ptr[k++] = sub[j];
+		temp[k++] = sub[j];
 
 	for (i = head, k = 0; i < tail; i++)
-		sub[i] = temp_ptr[k++];
+		sub[i] = sub[k++];
 
 	printf("[Done]: ");
 	print_array(sub + head, tail - head);
-}
-
-
-/**
- * merge -> Implements the merge sort algorithm through recursion
- * @sub: A sub array.
- * @temp_ptr: A ptr to the sorted array.
- * @head: The front index
- * @tail: the rear index of the sub array.
- *
- * Return: Nothing
- */
-void merge(int *sub, int *temp_ptr, size_t head, size_t tail)
-{
-	size_t tmp;
-
-	if (tail - head > 1)
-	{
-		tmp = head + (tail - head) / 2;
-		merge(sub, temp_ptr, head, tmp);
-		merge(sub, temp_ptr, tmp, tail);
-		merge(sub, temp_ptr, tmp, tail);
-	}
 }
